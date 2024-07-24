@@ -1,0 +1,72 @@
+<div class="p-3 bg-neutral-800 rounded-b-lg shadow-lg">
+  <div
+    class="flex flex-row gap-2 flex-wrap w-full"
+    *ngIf="!bundleService.selectedBundle"
+  >
+    <div class="text-red-300 items-center flex flex-col justify-center">
+      <span>Bundle is not selected</span>
+    </div>
+    <div class="grow flex flex-row">
+      <input
+        placeholder="Bundle Directory"
+        class="p-2 grow bg-neutral-700 rounded-l-lg border-y-2 border-blue-400"
+        [(ngModel)]="bundleDirectory"
+      />
+      <button
+        class="bg-neutral-950 hover:bg-blue-950 active:bg-neutral-950 border-y-2 border-blue-400 p-2 rounded-r-lg transition-all duration-100"
+        (click)="openDirectorySelect()"
+      >
+        Browse
+      </button>
+    </div>
+    <button
+      class="bg-neutral-950 hover:bg-blue-950 active:bg-neutral-950 border-y-2 border-green-400 p-2 rounded-lg transition-all duration-100"
+      (click)="loadBundle()"
+    >
+      Load
+    </button>
+  </div>
+
+  <div
+    class="flex flex-row gap-2 flex-wrap w-full"
+    *ngIf="bundleService.selectedBundle"
+  >
+    <div class="text-green-300 items-center flex flex-col justify-center">
+      <span>Loaded bundle: {{ bundleService.selectedBundle.bundleName }}</span>
+    </div>
+    <div class="grow"></div>
+
+    <div
+      class="text-blue-300 items-center flex flex-col justify-center"
+      *ngIf="bundleService.selectedBundle.areas?.length !== 0"
+    >
+      <span>Current area:</span>
+    </div>
+    <select
+      *ngIf="bundleService.selectedBundle.areas?.length !== 0"
+      [ngModel]="bundleService.currentArea!"
+      (ngModelChange)="selectActiveArea($event)"
+      class="p-2 bg-neutral-700 rounded-lg border-y-2 border-blue-400"
+    >
+      <option
+        *ngFor="let area of bundleService.selectedBundle.areas"
+        [ngValue]="area"
+      >
+        {{ area.areaName }}
+      </option>
+    </select>
+    <div
+      class="text-red-300 items-center flex flex-col justify-center"
+      *ngIf="bundleService.selectedBundle.areas?.length === 0"
+    >
+      <span>No areas defined</span>
+    </div>
+
+    <button
+      class="bg-neutral-950 hover:bg-blue-950 active:bg-neutral-950 border-y-2 border-green-400 p-2 rounded-lg transition-all duration-100"
+      (click)="createArea()"
+    >
+      New Area
+    </button>
+  </div>
+</div>

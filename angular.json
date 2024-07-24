@@ -36,7 +36,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css"
             ],
             "scripts": [],
             "customWebpackConfig": {
@@ -140,9 +141,15 @@
         "test": {
           "builder": "@angular-builders/jest:run",
           "options": {
-            "polyfills": ["src/polyfills-test.ts"],
+            "polyfills": [
+              "src/polyfills-test.ts"
+            ],
             "tsConfig": "src/tsconfig.spec.json",
-            "globalMocks": ["styleTransform", "matchMedia", "getComputedStyle"],
+            "globalMocks": [
+              "styleTransform",
+              "matchMedia",
+              "getComputedStyle"
+            ],
           }
         },
         "lint": {

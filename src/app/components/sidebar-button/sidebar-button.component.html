@@ -1,0 +1,11 @@
+<button
+  class="sidebar-button"
+  [class]="'sidebar-button' + (pulse ? 'animate-pulse ' : ' ') + color"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLinkActive]="color + '-selected'"
+  [routerLink]="link"
+  (click)="emitClick(); $event.stopPropagation()"
+  [title]="title"
+>
+  <ng-content></ng-content>
+</button>

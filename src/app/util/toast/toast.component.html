@@ -1,0 +1,49 @@
+@for (toast of toastService.toasts; track toast) {
+<div class="mb-2 min-w-72">
+  <div
+    class="rounded-t-lg border-t-2 bg-black"
+    [class]="toast.color || 'toast-red'"
+  >
+    <div class="flex flex-row gap-10 p-2">
+      <div class="my-auto grow font-bold">
+        <span *ngIf="toast.icon"><i class="bi bi-{{ toast.icon }}"></i></span>
+        {{ toast.header || "Message" }}
+      </div>
+      <button
+        class="rounded-md bg-black px-1"
+        [class]="toast.color || 'toast-red'"
+        (click)="toastService.remove(toast)"
+      >
+        <i class="bi bi-x-lg"></i>
+      </button>
+    </div>
+  </div>
+  <div
+    class="rounded-bl-xl rounded-br-sm border-b-2 bg-black p-3 pb-2 pt-1 flex flex-col gap-2 opacity-90"
+    [class]="toast.color || 'toast-red'"
+  >
+    <div [class]="toast.color || 'toast-red'">
+      {{ toast.message }}
+    </div>
+    <div class="flex flex-row w-full" *ngIf="toast.inputCallback">
+      <input
+        class="p-2 bg-neutral-800 rounded-l-lg border-y-2 grow"
+        [class]="toast.color || 'toast-red'"
+        [(ngModel)]="toast.inputText"
+        (keydown.enter)="
+          toast.inputCallback(toast.inputText!); toastService.remove(toast)
+        "
+      />
+      <button
+        class="p-2 bg-neutral-900 rounded-r-lg border-y-2 grow"
+        [class]="toast.color || 'toast-red'"
+        (click)="
+          conditionalRemove(toast.inputCallback(toast.inputText!), toast)
+        "
+      >
+        <i class="bi bi-check"></i>
+      </button>
+    </div>
+  </div>
+</div>
+}

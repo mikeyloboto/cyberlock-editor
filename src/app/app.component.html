@@ -1,1 +1,8 @@
-<router-outlet></router-outlet>
+<div class="flex flex-row grow">
+  <app-sidebar class="h-screen sticky top-0" />
+  <div class="grow flex flex-col">
+    <app-header class="sticky top-0 w-full" />
+    <router-outlet class="p-2"></router-outlet>
+  </div>
+</div>
+<app-toast aria-live="polite" aria-atomic="true"></app-toast>

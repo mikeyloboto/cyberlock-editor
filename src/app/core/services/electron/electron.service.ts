@@ -5,9 +5,15 @@ import { Injectable } from '@angular/core';
 import { ipcRenderer, webFrame } from 'electron';
 import * as childProcess from 'child_process';
 import * as fs from 'fs';
+import * as remote from '@electron/remote';
+import * as path from 'path';
+import { Area } from '../../../domain/area.domain';
+import * as yaml from 'js-yaml';
+import { Room } from '../../../domain/room.domain';
+import { Npc } from '../../../domain/npc.domain';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ElectronService {
   ipcRenderer!: typeof ipcRenderer;
@@ -18,6 +24,7 @@ export class ElectronService {
   constructor() {
     // Conditional imports
     if (this.isElectron) {
+      console.log('Electron detected');
       this.ipcRenderer = (window as any).require('electron').ipcRenderer;
       this.webFrame = (window as any).require('electron').webFrame;
 
@@ -47,6 +54,49 @@ export class ElectronService {
       // If you want to use a NodeJS 3rd party deps in Renderer process,
       // ipcRenderer.invoke can serve many common use cases.
       // https://www.electronjs.org/docs/latest/api/ipc-renderer#ipcrendererinvokechannel-args
+    }
+  }
+
+  openDirectorySelectDialog(options: any) {
+    return this.ipcRenderer.invoke('openDirectorySelectDialog', options);
+  }
+
+  getAreasList(baseDir: string) {
+    return this.fs
+      .readdirSync(baseDir, { withFileTypes: true })
+      .filter((dirent) => dirent.isDirectory());
+  }
+
+  createArea(baseDir: string, areaName: string) {
+    this.fs.mkdirSync(path.join(baseDir, 'areas', areaName), {
+      recursive: true,
+    });
+  }
+
+  loadRooms(area: Area) {
+    if (this.fs.existsSync(path.join(area.areaDirectory!, 'rooms.yml'))) {
+      return yaml.load(
+        this.fs.readFileSync(
+          path.join(area.areaDirectory!, 'rooms.yml'),
+          'utf8'
+        )
+      ) as Room[];
+    } else {
+      console.log('No rooms.yml file found, creating');
+      this.fs.writeFileSync(path.join(area.areaDirectory!, 'rooms.yml'), '[]');
+      return [];
+    }
+  }
+
+  loadNpcs(area: Area) {
+    if (this.fs.existsSync(path.join(area.areaDirectory!, 'npcs.yml'))) {
+      return yaml.load(
+        this.fs.readFileSync(path.join(area.areaDirectory!, 'npcs.yml'), 'utf8')
+      ) as Npc[];
+    } else {
+      console.log('No npcs.yml file found, creating');
+      this.fs.writeFileSync(path.join(area.areaDirectory!, 'npcs.yml'), '[]');
+      return [];
     }
   }
 

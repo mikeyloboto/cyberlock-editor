@@ -1,0 +1,45 @@
+.sidebar-button {
+  @apply m-1 rounded-3xl border-2  p-1 px-2 text-xl shadow-md transition-all duration-500 md:m-2 md:p-3 md:px-4 md:text-4xl;
+}
+.sidebar-button::after {
+  @apply bg-black;
+}
+.sidebar-button:active {
+  @apply shadow-inner shadow-black;
+}
+.red {
+  @apply border-red-500  text-red-500 shadow-red-800;
+}
+.green {
+  @apply border-green-500  text-green-500 shadow-green-800;
+}
+.blue {
+  @apply border-blue-500  text-blue-500 shadow-blue-800;
+}
+.yellow {
+  @apply border-yellow-500  text-yellow-500 shadow-yellow-800;
+}
+.white {
+  @apply border-white  text-white shadow-neutral-500;
+}
+.pink {
+  @apply border-fuchsia-500  text-fuchsia-500 shadow-fuchsia-800;
+}
+.red-selected {
+  @apply rounded-md border-red-500 bg-red-950 text-white;
+}
+.green-selected {
+  @apply rounded-md border-green-500 bg-green-950 text-white;
+}
+.blue-selected {
+  @apply rounded-md border-blue-500 bg-blue-950 text-white;
+}
+.yellow-selected {
+  @apply rounded-md border-yellow-500 bg-yellow-950 text-white;
+}
+.white-selected {
+  @apply rounded-md border-stone-50 bg-stone-950 text-white;
+}
+.pink-selected {
+  @apply rounded-md border-fuchsia-500 bg-fuchsia-950 text-white;
+}
